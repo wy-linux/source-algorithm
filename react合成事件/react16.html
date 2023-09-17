@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="parent">
+        <p id="child">事件执行</p>
+    </div>
+    <script>
+        function dispatchEvent(event) {
+            let paths = []
+            let current = event.target
+            while(current) {
+                paths.push(current)
+                current = current.parentNode
+            }
+            for(let i = paths.length - 1; i >= 0; i--) {
+                let handler = paths[i].onClickCapture
+                handler && handler()
+            }
+            for(let i = 0; i < paths.length; i++) {
+                let handler = paths[i].onClick
+                handler && handler()
+            }
+        }
+        document.addEventListener('click', dispatchEvent)
+        const parent = document.getElementById('parent')
+        const child = document.getElementById('child')
+        parent.addEventListener('click', () => {
+            console.log('父元素原生捕获')
+        }, true)
+        parent.addEventListener('click', () => {
+            console.log('父元素原生冒泡')
+        })
+        child.addEventListener('click', () => {
+            console.log('子元素原生捕获')
+        }, true)
+        child.addEventListener('click', () => {
+            console.log('子元素原生冒泡')
+        })
+        document.addEventListener('click', () => {
+            console.log('document原生捕获')
+        }, true)
+        document.addEventListener('click', () => {
+            console.log('document原生冒泡')
+        })
+        parent.onClick = function() {console.log('父元素React事件冒泡')}
+        parent.onClickCapture = function() {console.log('父元素React事件捕获')}
+        child.onClick = function() {console.log('子元素React事件冒泡')}
+        child.onClickCapture = function() {console.log('子元素React事件捕获')}
+    </script>
+</body>
+</html>
