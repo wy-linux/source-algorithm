@@ -14,4 +14,6 @@
 - promisify
 - promise并发控制
 - react合成事件
+- 数组的子集
+- Add函数调用expensiveCall
 - ......
