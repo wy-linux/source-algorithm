@@ -12,14 +12,14 @@ let arr = [
 function toTree(arr, pid) {
     let result = [];
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].pid === pid) {
-        let children = toTree(arr, arr[i].id);
-        if (children.length > 0) {
-          arr[i].children = children;
+        if (arr[i].pid === pid) {
+            let children = toTree(arr, arr[i].id);
+            if (children.length > 0) {
+                arr[i].children = children;
+            }
+            result.push(arr[i]);
         }
-        result.push(arr[i]);
-      }
-    } 
+    }
     return result;
 }
 
@@ -29,18 +29,18 @@ function toTree(arr, pid) {
  * map优化版本
  */
 function toTree(arr) {
-  let result = []
-  let map = {}
-  arr.forEach(item => map[item.id] = item)
-  arr.forEach(item => {
-    const parent = map[item.pid]
-    if(parent) {
-      (parent.children || (parent.children = [])).push(item)
-    } else {
-      result.push(item)
-    }
-  })
-  return result
+    let result = []
+    let map = {}
+    arr.forEach(item => map[item.id] = item)
+    arr.forEach(item => {
+        const parent = map[item.pid]
+        if (parent) {
+            (parent.children || (parent.children = [])).push(item)
+        } else {
+            result.push(item)
+        }
+    })
+    return result
 }
 
 let tree = toTree(arr)
